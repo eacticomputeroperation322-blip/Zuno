@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zuno</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f5fb;--card:#fff;--tx:#14122b;--mu:#7a7793;--ac:#6c4cff;--ac2:#12d6b0;--bd:#ebeaf4;--in:#efedfa;--th:#fff;--rd:#ff5b7a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f0e1c;--card:#191830;--tx:#f1f0fb;--mu:#8e8bab;--bd:#26244a;--in:#22204a;--th:#24224a}}
+:root[data-theme="dark"]{--bg:#0f0e1c;--card:#191830;--tx:#f1f0fb;--mu:#8e8bab;--bd:#26244a;--in:#22204a;--th:#24224a}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--tx);font:15px/1.4 Sora,system-ui,sans-serif;overflow:hidden}
+button,input{font:inherit;color:inherit;border:0;background:none;outline:0}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+#root{height:100%}.shell{display:flex;height:100%}
+.side{width:100%;display:flex;flex-direction:column;background:var(--bg);min-width:0}
+.main{position:fixed;inset:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px) 0;background:var(--bg);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;z-index:5}
+.main.open{transform:none}
+@media(min-width:760px){.side{width:380px;flex:none;border-right:1px solid var(--bd)}.main{position:static;transform:none;flex:1}.back{display:none}}
+.hd{padding:18px 18px 8px;display:flex;align-items:center;justify-content:space-between}.hd h1{font-size:24px;letter-spacing:-.5px}
+.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--ac),var(--ac2));display:grid;place-items:center;color:#fff;font-weight:700;font-size:24px;transform:rotate(-6deg)}
+.srch{margin:6px 18px 10px;background:var(--in);border-radius:16px;padding:11px 14px;width:calc(100% - 36px)}
+#list{flex:1;overflow:auto;padding:0 10px 90px}
+.row{display:flex;gap:12px;padding:10px;border-radius:18px;cursor:pointer;align-items:center}.row:hover,.row.on{background:var(--card)}
+.av{--c:#6c4cff;width:48px;height:48px;flex:none;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:700;position:relative}
+.av i{position:absolute;right:0;bottom:0;width:13px;height:13px;border-radius:50%;background:var(--ac2);border:2px solid var(--bg)}
+.rb{flex:1;min-width:0}.r1,.r2{display:flex;justify-content:space-between;gap:8px}.r1 b{font-weight:600}.tm{font-size:12px;color:var(--mu)}
+.r2 span{color:var(--mu);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r2 em{background:var(--ac);color:#fff;font-style:normal;font-size:11px;border-radius:10px;padding:1px 7px;font-weight:600}
+.fab{position:absolute;right:20px;bottom:86px;width:56px;height:56px;border-radius:20px;background:linear-gradient(135deg,var(--ac),#9a6bff);color:#fff;font-size:26px;box-shadow:0 10px 24px #6c4cff55}
+.nav{display:flex;background:var(--card);margin:0 12px 10px;border-radius:24px;padding:6px;border:1px solid var(--bd)}
+.nav button{flex:1;padding:8px 0;border-radius:18px;font-size:11px;min-width:0;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:2px}.nav button b{font-size:18px;font-weight:400}
+.nav button.on{background:var(--in);color:var(--ac);font-weight:600}
+.empty{text-align:center;color:var(--mu);padding:50px 24px}.empty b{display:block;color:var(--tx);font-size:17px;margin-bottom:6px}
+.sk{height:68px;margin:6px 10px;border-radius:18px;background:linear-gradient(90deg,var(--in),var(--card),var(--in));background-size:200%;animation:sk 1.2s infinite}@keyframes sk{to{background-position:-200%}}
+.ch{display:flex;align-items:center;gap:10px;padding:12px 12px;background:var(--card);border-bottom:1px solid var(--bd)}
+.ch .rb b{display:block;font-weight:600}.ch small{color:var(--mu);font-size:12px}.ch small.ty{color:var(--ac)}
+.ib{width:38px;height:38px;border-radius:50%;font-size:18px}.ib:hover{background:var(--in)}
+#msgs{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:6px}
+.b{max-width:78%;padding:9px 13px;border-radius:20px;background:var(--th);align-self:flex-start;border-bottom-left-radius:6px;word-wrap:break-word;cursor:pointer;animation:pop .18s ease}
+.b.me{align-self:flex-end;background:linear-gradient(135deg,var(--ac),#8b62ff);color:#fff;border-radius:20px;border-bottom-right-radius:6px}
+@keyframes pop{from{transform:scale(.94);opacity:0}}
+.b .mt{font-size:10.5px;opacity:.7;text-align:right;margin-top:3px}.rd{color:var(--ac2)}
+.q{border-left:3px solid var(--ac2);padding:2px 8px;margin-bottom:5px;font-size:12.5px;opacity:.85;background:#0001;border-radius:6px}
+.ph{width:200px;height:130px;border-radius:14px;background:linear-gradient(135deg,#ffb86c,#ff5b7a 55%,#6c4cff);display:grid;place-items:center;font-size:34px}
+.fl{display:flex;gap:10px;align-items:center}.fl span{font-size:26px}
+.wv{display:flex;gap:2px;align-items:center;height:22px}.wv i{width:3px;background:currentColor;opacity:.7;border-radius:2px}
+.cmp{display:flex;gap:6px;align-items:center;padding:10px;background:var(--card);border-top:1px solid var(--bd)}
+.cmp input{flex:1;background:var(--in);border-radius:20px;padding:11px 15px;min-width:0}
+.sb{width:42px;height:42px;border-radius:50%;background:var(--ac);color:#fff;font-size:17px}
+.rp{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--card);border-top:1px solid var(--bd);font-size:13px;color:var(--mu)}
+.em{display:none;flex-wrap:wrap;gap:2px;padding:6px 10px;background:var(--card)}.em.on{display:flex}.em button{font-size:22px;padding:4px;border-radius:10px}
+.ov{position:fixed;inset:0;background:#0007;display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sh{background:var(--card);width:100%;max-width:480px;max-height:88vh;overflow:auto;border-radius:26px 26px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom,0px));animation:up .22s ease}@keyframes up{from{transform:translateY(40px);opacity:0}}
+.sh h3{padding:4px 8px 8px}.sh .it{display:flex;gap:12px;padding:13px 10px;border-radius:14px;width:100%;text-align:left;align-items:center}.sh .it:hover{background:var(--in)}
+.set{margin:0 18px 14px;background:var(--card);border-radius:20px;overflow:hidden}.st{display:flex;justify-content:space-between;align-items:center;width:100%;padding:14px 16px;border-bottom:1px solid var(--bd);text-align:left}.st:last-child{border:0}
+.tg{width:44px;height:26px;border-radius:13px;background:var(--bd);position:relative;flex:none}.tg:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}.tg.on{background:var(--ac)}.tg.on:after{left:21px}
+.au{height:100%;overflow:auto;display:flex;flex-direction:column;justify-content:center;max-width:420px;margin:0 auto;padding:28px;gap:14px}
+.au h1{font-size:30px;letter-spacing:-1px}.au p{color:var(--mu)}
+.fld{background:var(--in);border-radius:16px;padding:14px 16px;width:100%}
+.pri{background:linear-gradient(135deg,var(--ac),#9a6bff);color:#fff;border-radius:18px;padding:15px;font-weight:600;width:100%}
+.tabs{display:flex;background:var(--in);border-radius:16px;padding:4px}.tabs button{flex:1;padding:9px;border-radius:12px;color:var(--mu)}.tabs .on{background:var(--card);color:var(--tx);font-weight:600}
+.err{color:var(--rd);font-size:13px;min-height:18px}
+.bn{background:#ff5b7a;color:#fff;text-align:center;padding:6px;font-size:13px}
+.call{position:fixed;inset:0;z-index:30;background:linear-gradient(160deg,#1c1450,#3a1f8f 60%,#0e6b66);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:70px 20px 50px}
+.call .av{width:110px;height:110px;font-size:44px;margin:0 auto 16px}.call .ct{text-align:center}.call .ctl{display:flex;gap:18px}
+.call .ctl button{width:62px;height:62px;border-radius:50%;background:#fff2;font-size:22px;color:#fff}.call .ctl .x{background:var(--rd)}.call .ctl .ok{background:#17c37b}
+.call .ctl .off{background:#fff;color:#111}
+
+.stp{display:flex;gap:12px;overflow:auto;padding:4px 8px 12px}.stp button{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:var(--mu);width:62px;flex:none}
+.ring{padding:3px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2))}.ring.seen{background:var(--bd)}.ring.add{background:none;border:2px dashed var(--bd);padding:1px}.ring .av{border:3px solid var(--bg)}
+.sv{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.sv .bars{display:flex;gap:4px;position:relative;z-index:2}.sv .bars i{flex:1;height:3px;border-radius:2px;background:#fff5;overflow:hidden}.sv .bars i.d{background:#fff}
+.sv .bars i.a:after{content:"";display:block;height:100%;background:#fff;animation:fill 5s linear forwards}@keyframes fill{from{width:0}to{width:100%}}
+.sv .who{display:flex;align-items:center;gap:10px;padding:12px 0;position:relative;z-index:2}.sv .who small{opacity:.8;display:block;font-size:12px}
+.sv .txt{flex:1;display:grid;place-items:center;text-align:center;font-size:28px;font-weight:700;padding:20px;word-break:break-word}
+.sv .tap{position:absolute;inset:90px 0 80px;display:flex;z-index:1}.sv .tap button{flex:1}
+.sv .acts{display:flex;gap:10px;justify-content:center;position:relative;z-index:2}.sv .acts button{background:#fff3;border-radius:18px;padding:10px 18px}
+.stpv{border-radius:20px;min-height:140px;display:grid;place-items:center;text-align:center;color:#fff;font-weight:700;font-size:20px;padding:18px;margin:6px 8px;word-break:break-word}
+.sw{display:flex;gap:10px;padding:6px 8px 10px}.sw button{width:34px;height:34px;border-radius:50%;border:3px solid transparent}.sw button.on{border-color:var(--tx)}
+
+.scn{position:fixed;inset:0;z-index:30;background:#0b0a1a;color:#fff;display:flex;flex-direction:column;align-items:center;gap:14px;overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 18px calc(20px + env(safe-area-inset-bottom,0px))}
+.scn .top{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:380px}.scn .tabs{width:100%;max-width:380px;background:#ffffff1c}.scn .tabs button{color:#fff9}.scn .tabs .on{background:#fff;color:#111}
+.vf{width:100%;max-width:320px;aspect-ratio:1;border-radius:26px;overflow:hidden;background:#000;border:3px solid var(--ac2);display:grid;place-items:center;position:relative}.vf video{width:100%;height:100%;object-fit:cover}.vf p{padding:18px;text-align:center;color:#fffa;font-size:13px}
+.qrc{background:#fff;color:#111;border-radius:28px;padding:22px;width:100%;max-width:300px;text-align:center}.qrc svg{width:100%;height:auto;display:block;margin-bottom:12px}
+.scn .fld{background:#ffffff1c;max-width:380px}.scn .ghost{background:#ffffff1c;border-radius:16px;padding:12px 18px;color:#fff}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script></head><body><div id="root"></div><input type="file" id="pf" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" tabindex="-1">
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const now=()=>new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+let uid=100;
+const mk=(t,text,st,extra)=>Object.assign({id:++uid,t,text,time:now(),st:st||'read'},extra||{});
+const P=[['Maya Chen','maya','#6c4cff',1,'Design nerd ☕'],['Arif Rahman','arif','#0fb894',1,'Building things'],['Lena Fischer','lena','#ff5b7a',0,'Coffee first'],['Noah Park','noah','#f59e0b',0,'On the road'],['Sofia Reyes','sofia','#3b82f6',1,'Hola 👋']].map((p,i)=>({id:'u'+i,name:p[0],user:p[1],c:p[2],online:!!p[3],bio:p[4],unread:0,msgs:[]}));
+P[0].msgs=[mk('them','Did you see the new Zuno mockups?'),mk('me','Yes, the violet looks great'),mk('them','Shipping the beta tomorrow 🚀','delivered')];P[0].unread=2;
+P[1].msgs=[mk('them','Are we still on for lunch?')];P[1].unread=1;
+P[2].msgs=[mk('me','Sent you the file','read',{kind:'file',name:'brief.pdf'})];
+const REPL=['Sounds good!','Haha, nice 😄','Let me check and get back to you.','Perfect, thanks!','On it 👍','Can we talk later today?'];
+const S={step:'welcome',mode:'phone',id:'',err:'',me:{name:'',user:'',bio:''},tab:'chats',cur:null,q:'',reply:null,sheet:null,loading:false,call:null,calls:[{n:'Maya Chen',d:'in',v:0,t:'Today, 09:12'},{n:'Arif Rahman',d:'missed',v:1,t:'Yesterday'},{n:'Lena Fischer',d:'out',v:0,t:'Mon'}],blocked:[],set:{notif:true,calls:true,online:true,receipts:true},online:navigator.onLine,draft:''};
+let timer=null;
+const byId=id=>P.find(p=>p.id===id),pre=m=>!m?'Say hello 👋':m.kind==='photo'?'📷 Photo':m.kind==='video'?'🎬 Video':m.kind==='file'?'📄 '+m.name:m.kind==='voice'?'🎤 Voice message':m.text;
+const av=(p,sz)=>`<div class="av" style="--c:${p.c};${sz?`width:${sz}px;height:${sz}px;font-size:${sz*.4|0}px;`:''}${p.pic?`background:url(${p.pic}) center/cover;`:''}">${p.pic?'':esc(p.name[0])}${p.online&&!S.blocked.includes(p.id)?'<i></i>':''}</div>`;
+const tick=m=>m.t==='me'?` <span class="${m.st==='read'?'rd':''}">${m.st==='sent'?'✓':'✓✓'}</span>`:'';
+const bub=m=>m.kind==='sys'?`<div class="tm" style="text-align:center;padding:6px">${esc(m.text)}</div>`:`<div class="b ${m.t}" data-act="menu" data-id="${m.id}">${m.who&&m.t==='them'?`<small style="display:block;font-weight:600;color:var(--ac2)">${esc(m.who)}</small>`:''}${m.reply?`<div class="q">${esc(m.reply)}</div>`:''}${
+m.kind==='photo'||m.kind==='video'?`<div class="ph">${m.kind==='photo'?'🖼️':'▶️'}</div>`:
+m.kind==='file'?`<div class="fl"><span>📄</span><div>${esc(m.name)}<div class="mt" style="text-align:left">2.4 MB</div></div></div>`:
+m.kind==='voice'?`<div class="fl">▶ <div class="wv">${[8,16,10,20,12,18,8,14,20,10,16,8].map(h=>`<i style="height:${h}px"></i>`).join('')}</div> 0:07</div>`:esc(m.text)}<div class="mt">${m.time}${tick(m)}</div></div>`;
+function listHTML(){return (S.tab==='chats'&&!S.q&&!S.loading?stripHTML():'')+(S.tab==='contacts'&&!S.q?'<div class="row" data-act="scan"><div class="av" style="--c:var(--ac);border-radius:16px">📷</div><div class="rb"><b>Scan QR code</b><div class="r2"><span>Add a friend or show your own code</span></div></div></div>':'')+listBody()}
+function listBody(){
+ if(S.loading)return '<div class="sk"></div>'.repeat(5);
+ const q=S.q.toLowerCase();
+ if(S.tab==='chats'){const l=P.filter(p=>p.msgs.length&&(p.name+p.user).toLowerCase().includes(q)||(q&&(p.name+p.user).toLowerCase().includes(q)));
+  if(!l.length)return `<div class="empty"><b>${q?'No matches':'No chats yet'}</b>${q?'Try another name or username.':'Tap + to start your first conversation.'}</div>`;
+  return l.map(p=>{const m=p.msgs[p.msgs.length-1];return `<div class="row ${S.cur===p.id?'on':''}" data-act="open" data-id="${p.id}">${av(p)}<div class="rb"><div class="r1"><b>${esc(p.name)}</b><span class="tm">${m?m.time:''}</span></div><div class="r2"><span>${esc(pre(m))}</span>${p.unread?`<em>${p.unread}</em>`:''}</div></div></div>`}).join('')}
+ if(S.tab==='contacts'){const l=P.filter(p=>!p.group&&(p.name+p.user).toLowerCase().includes(q));
+  if(!l.length)return '<div class="empty"><b>No contacts found</b>Check the username and try again.</div>';
+  return l.map(p=>`<div class="row" data-act="open" data-id="${p.id}">${av(p)}<div class="rb"><div class="r1"><b>${esc(p.name)}</b></div><div class="r2"><span>@${p.user} · ${esc(p.bio)}</span></div></div></div>`).join('')}
+ if(S.tab==='calls')return `<div class="row" data-act="incoming"><div class="av" style="--c:var(--ac2)">📞</div><div class="rb"><b>Simulate incoming call</b><div class="r2"><span>Preview the incoming-call screen</span></div></div></div>`+S.calls.map(c=>`<div class="row" data-act="callname" data-n="${esc(c.n)}"><div class="av" style="--c:${P.find(p=>p.name===c.n).c}">${c.n[0]}</div><div class="rb"><div class="r1"><b style="${c.d==='missed'?'color:var(--rd)':''}">${esc(c.n)}</b><span class="tm">${c.t}</span></div><div class="r2"><span>${c.d==='in'?'↙ Incoming':c.d==='out'?'↗ Outgoing':'↙ Missed'} · ${c.v?'Video':'Voice'}</span></div></div></div>`).join('');
+ if(S.tab==='community'){const l=C.filter(c=>c.name.toLowerCase().includes(q)),row=c=>`<div class="row ${S.cm===c.id?'on':''}" data-act="cmopen" data-id="${c.id}">${cav(c,50)}<div class="rb"><div class="r1"><b>${esc(c.name)}</b>${c.admin?'<span class="tm">Admin</span>':''}</div><div class="r2"><span>${c.members.toLocaleString()} members · ${esc(c.desc)}</span></div></div>${c.joined?'':`<button class="pri" data-act="cjoin" data-id="${c.id}" style="width:auto;padding:7px 14px;border-radius:14px;font-size:13px">Join</button>`}</div>`,j=l.filter(c=>c.joined),d=l.filter(c=>!c.joined);
+  if(!l.length)return '<div class="empty"><b>No communities found</b>Try a different name or create your own.</div>';
+  return (j.length?'<p class="tm" style="padding:4px 10px">Your communities</p>'+j.map(row).join(''):'')+(d.length?'<p class="tm" style="padding:10px 10px 4px">Discover</p>'+d.map(row).join(''):'')}
+ const tg=(k,l)=>`<button class="st" data-act="tg" data-k="${k}">${l}<span class="tg ${(k==='dark'?document.documentElement.dataset.theme==='dark':S.set[k])?'on':''}"></span></button>`;
+ return `<div class="row" data-act="avsheet" style="margin:0 8px 8px">${av({name:S.me.name||'Me',c:'#6c4cff',pic:S.me.pic},56)}<div class="rb"><b>${esc(S.me.name)}</b><div class="r2"><span>@${esc(S.me.user)} · ${esc(S.me.bio||'No bio yet')}</span></div><div class="tm" style="color:var(--ac)">Tap to change photo</div></div></div>
+ <div class="set"><div class="st"><span>Account</span><span class="tm">${esc(S.id)}</span></div>${tg('online','Show online status')}${tg('receipts','Read receipts')}</div>
+ <div class="set">${tg('notif','Message notifications')}${tg('calls','Call notifications')}${tg('dark','Dark mode')}</div>
+ <div class="set"><button class="st" data-act="blocked">Blocked users<span class="tm">${S.blocked.length}</span></button><button class="st" data-act="info" data-t="Help and support|Visit support or email help@zuno.app. Replies within 24 hours.">Help and support</button><button class="st" data-act="info" data-t="About Zuno|Zuno 1.0 prototype. Fast, simple messaging.">About Zuno</button><button class="st" data-act="logout" style="color:var(--rd)">Log out</button></div>`}
+function chatHTML(){const p=byId(S.cur);if(!p)return '<div class="empty" style="margin:auto"><div class="logo" style="margin:0 auto 14px">Z</div><b>Pick a chat</b>Your conversation appears here.</div>';
+ const bl=S.blocked.includes(p.id);
+ return `<div class="ch"><button class="ib back" data-act="close" aria-label="Back">←</button>${av(p,40)}<div class="rb" ${p.group?'data-act="ginfo" style="cursor:pointer"':''}><b>${esc(p.name)}</b><small class="${p.typing?'ty':''}">${p.typing?(p.group?esc(p.tw)+' is typing…':'typing…'):p.group?esc('You, '+p.members.map(i=>byId(i).name.split(' ')[0]).join(', ')):bl?'Blocked':p.online&&S.set.online?'Online':'Last seen recently'}</small></div>${p.group?'':'<button class="ib" data-act="call" aria-label="Voice call">📞</button><button class="ib" data-act="vcall" aria-label="Video call">🎥</button>'}<button class="ib" data-act="more" aria-label="More">⋮</button></div>
+ <div id="msgs">${p.msgs.length?p.msgs.map(bub).join(''):'<div class="empty"><b>No messages yet</b>Say hello to '+esc(p.name.split(' ')[0])+'.</div>'}</div>
+ ${S.reply?`<div class="rp"><span>↩ ${esc(S.reply.text.slice(0,50))}</span><button data-act="noreply">✕</button></div>`:''}
+ <div class="em" id="em">${['😀','😂','😍','👍','🙏','🔥','🎉','😮','😢','❤️','👋','✅'].map(e=>`<button data-act="emo" data-e="${e}">${e}</button>`).join('')}</div>
+ ${bl?'<div class="rp" style="justify-content:center">You blocked this user. Unblock to send messages.</div>':`<div class="cmp"><button class="ib" data-act="attach" aria-label="Attach">📎</button><input id="msg" maxlength="2000" placeholder="Message" autocomplete="off" value="${esc(S.draft)}"><button class="ib" data-act="emoji" aria-label="Emoji">😊</button><button class="sb" id="sb" data-act="${S.draft.trim()?'send':'voice'}" aria-label="Send">${S.draft.trim()?'➤':'🎤'}</button></div>`}`}
+function sheetHTML(){const s=S.sheet;if(!s)return '';let h='';
+ if(s.k==='menu')h=[['reply','↩','Reply'],['copy','⧉','Copy'],['fwd','➦','Forward'],['del','🗑','Delete']].map(a=>`<button class="it" data-act="m_${a[0]}" data-id="${s.id}"><span>${a[1]}</span>${a[2]}</button>`).join('');
+ if(s.k==='attach')h=[['photo','🖼','Photo'],['video','🎬','Video'],['file','📄','Document'],['voice','🎤','Voice message']].map(a=>`<button class="it" data-act="send_${a[0]}"><span>${a[1]}</span>${a[2]}</button>`).join('');
+ if(s.k==='fwd')h='<h3>Forward to</h3>'+P.filter(p=>p.id!==S.cur).map(p=>`<button class="it" data-act="fwdto" data-id="${p.id}" data-m="${s.id}">${av(p,36)}${esc(p.name)}</button>`).join('');
+ if(s.k==='more'&&byId(S.cur).group)h=`<button class="it" data-act="ginfo"><span>👥</span>Group info</button><button class="it" data-act="clear"><span>🗑</span>Clear chat</button><button class="it" data-act="gleave" style="color:var(--rd)"><span>🚪</span>Leave group</button>`;
+ if(s.k==='more'&&!byId(S.cur).group){const bl=S.blocked.includes(S.cur);h=`<button class="it" data-act="block"><span>🚫</span>${bl?'Unblock':'Block'} user</button><button class="it" data-act="report"><span>⚑</span>Report user</button><button class="it" data-act="clear"><span>🗑</span>Clear chat</button>`}
+ if(s.k==='blocked')h='<h3>Blocked users</h3>'+(S.blocked.length?S.blocked.map(i=>`<button class="it" data-act="unb" data-id="${i}">${av(byId(i),36)}${esc(byId(i).name)}<span class="tm" style="margin-left:auto">Unblock</span></button>`).join(''):'<div class="empty">You haven’t blocked anyone.</div>');
+ if(s.k==='avatar')h=`<h3>Profile photo</h3><label for="pf" class="it" style="cursor:pointer"><span>📷</span>Upload from device</label><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:8px">${AV.map((a,i)=>`<button data-act="av_pick" data-i="${i}" aria-label="Avatar ${i+1}">${av({name:'',c:a[1],pic:avUrl(i)},64)}</button>`).join('')}</div>${S.me.pic?'<button class="it" data-act="av_rm" style="color:var(--rd)"><span>🗑</span>Remove photo</button>':''}`;
+ if(s.k==='newmenu')h=`<button class="it" data-act="newchat"><span>💬</span>New chat</button><button class="it" data-act="gnew"><span>👥</span>New group</button>`;
+ if(s.k==='gnew')h=`<h3>New group</h3><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:4px 4px 10px">${AV.slice(0,6).map((a,i)=>`<button data-act="gpick" data-i="${i}" aria-label="Icon ${i+1}" style="border-radius:50%;padding:3px;border:3px solid ${i===S.dg.i?'var(--ac)':'transparent'}">${av({name:'',c:a[1],pic:avUrl(i)},44)}</button>`).join('')}</div><input class="fld" id="gnm" maxlength="40" placeholder="Group name" value="${esc(S.dg.n)}" style="margin-bottom:6px"><p class="tm" style="padding:6px 8px">Add members (${S.dg.sel.length} selected)</p>${P.filter(p=>!p.group).map(p=>`<button class="it" data-act="gsel" data-id="${p.id}">${av(p,36)}${esc(p.name)}<span style="margin-left:auto;font-size:18px">${S.dg.sel.includes(p.id)?'☑':'☐'}</span></button>`).join('')}<div class="err" id="gerr"></div><button class="pri" data-act="gpost">Create group</button>`;
+ if(s.k==='ginfo'){const g=byId(S.cur);h=`<h3>${esc(g.name)}</h3><p class="tm" style="padding:0 8px 6px">${g.members.length+1} members</p><div class="it">${av({name:S.me.name||'Me',c:'#6c4cff',pic:S.me.pic},36)}You<span class="tm" style="margin-left:auto">Admin</span></div>${g.members.map(i=>`<div class="it">${av(byId(i),36)}${esc(byId(i).name)}</div>`).join('')}<button class="it" data-act="gadd" style="color:var(--ac)"><span>＋</span>Add member</button><button class="it" data-act="gleave" style="color:var(--rd)"><span>🚪</span>Leave group</button>`}
+ if(s.k==='gadd'){const g=byId(S.cur),l=P.filter(p=>!p.group&&!g.members.includes(p.id));h='<h3>Add member</h3>'+(l.length?l.map(p=>`<button class="it" data-act="gadd2" data-id="${p.id}">${av(p,36)}${esc(p.name)}</button>`).join(''):'<div class="empty">Everyone is already in this group.</div>')}
+ if(s.k==='cnew')h=`<h3>Create community</h3><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:4px 4px 10px">${AV.slice(0,6).map((a,i)=>`<button data-act="cpick" data-i="${i}" aria-label="Icon ${i+1}" style="border-radius:16px;padding:3px;border:3px solid ${i===S.dc.i?'var(--ac)':'transparent'}">${cav({emoji:a[0],c:a[1]},44)}</button>`).join('')}</div><input class="fld" id="cnm" maxlength="40" placeholder="Community name" value="${esc(S.dc.n)}" style="margin-bottom:8px"><input class="fld" id="cds" maxlength="120" placeholder="What is it about?" value="${esc(S.dc.d)}"><div class="err" id="cerr"></div><button class="pri" data-act="cpost">Create community</button>`;
+ if(s.k==='chnew')h=`<h3>New channel</h3><input class="fld" id="chn" maxlength="24" placeholder="Channel name"><div class="err" id="cerr"></div><button class="pri" data-act="chpost">Add channel</button>`;
+ if(s.k==='status')h=`<h3>New status</h3><div class="stpv" id="stpv" style="background:${BGS[S.dst.bg]}">${esc(S.dst.text)||'Type something…'}</div><div class="sw">${BGS.map((b,i)=>`<button class="${i===S.dst.bg?'on':''}" style="background:${b}" data-act="stbg" data-i="${i}" aria-label="Color ${i+1}"></button>`).join('')}</div><input class="fld" id="sttx" maxlength="120" placeholder="What’s on your mind?" value="${esc(S.dst.text)}"><div class="err" id="sterr"></div><button class="pri" data-act="stpost">Post status</button><p class="tm" style="text-align:center;padding-top:8px">Visible to your contacts for 24 hours</p>`;
+ if(s.k==='info')h=`<h3>${esc(s.t)}</h3><p style="padding:0 8px 8px;color:var(--mu)">${esc(s.d)}</p>`;
+ return `<div class="ov" data-act="sheetx"><div class="sh">${h}</div></div>`}
+function callHTML(){const c=S.call;if(!c)return '';const p=byId(c.id);
+ return `<div class="call"><div class="ct">${av(p)}<h2>${esc(p.name)}</h2><p id="ctm">${c.incoming?'Incoming '+(c.v?'video':'voice')+' call…':c.v&&c.cam?'Video call · 0:00':'0:00'}</p></div><div class="ctl">${c.incoming?`<button class="x" data-act="endcall" aria-label="Decline">✕</button><button class="ok" data-act="accept" aria-label="Accept">📞</button>`:`<button class="${c.mute?'off':''}" data-act="mute" aria-label="Mute">${c.mute?'🔇':'🎙'}</button>${c.v?`<button class="${c.cam?'':'off'}" data-act="cam" aria-label="Camera">${c.cam?'📷':'🚫'}</button>`:''}<button class="x" data-act="endcall" aria-label="End call">✕</button>`}</div></div>`}
+const AV=[['🦊','#ff8a3d'],['🐼','#4b5563'],['🐙','#ff5b7a'],['🦄','#a855f7'],['🚀','#3b82f6'],['🌈','#12d6b0'],['🎧','#6c4cff'],['🌵','#16a34a'],['🐳','#0ea5e9'],['⚡','#f59e0b'],['🍉','#ef4444'],['🪐','#7c3aed']];
+const avUrl=i=>'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="'+AV[i][1]+'"/><text x="50" y="50" font-size="52" text-anchor="middle" dominant-baseline="central">'+AV[i][0]+'</text></svg>').replace(/\(/g,'%28').replace(/\)/g,'%29');
+const keep=()=>{if(S.step==='profile'){const v=i=>($('#'+i)||{}).value||'';Object.assign(S.me,{name:v('nm'),user:v('un'),bio:v('bio')})}};
+const BGS=['linear-gradient(135deg,#6c4cff,#12d6b0)','linear-gradient(135deg,#ff8a3d,#ff5b7a)','linear-gradient(135deg,#3b82f6,#a855f7)','linear-gradient(135deg,#16a34a,#0ea5e9)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#1f2937,#6c4cff)'];
+P[0].st=[{bg:BGS[0],text:'Beta ships tomorrow 🚀',time:'2h ago'},{bg:BGS[2],text:'Coffee #3 ☕',time:'1h ago'}];P[1].st=[{bg:BGS[1],text:'Lunch time 🍜',time:'3h ago'}];P[3].st=[{bg:BGS[3],text:'Road trip day 🌄',time:'5h ago'}];
+S.mine=[];S.seen={};S.dst={text:'',bg:0};S.sv=null;let svT=null;
+function stripHTML(){const m=S.mine.length;
+ const l=P.filter(p=>p.st&&p.st.length&&!S.blocked.includes(p.id)).sort((a,b)=>!!S.seen[a.id]-!!S.seen[b.id]);
+ return `<div class="stp"><button data-act="${m?'svopen':'stadd'}" data-w="me" aria-label="My status"><div class="ring ${m?'':'add'}">${m?av({name:S.me.name||'Me',c:'#6c4cff',pic:S.me.pic},52):'<div class="av" style="--c:var(--in);color:var(--ac);width:52px;height:52px;font-size:24px">＋</div>'}</div>My status</button>${l.map(p=>`<button data-act="svopen" data-w="${p.id}"><div class="ring ${S.seen[p.id]?'seen':''}">${av({name:p.name,c:p.c,pic:p.pic},52)}</div>${esc(p.name.split(' ')[0])}</button>`).join('')}</div>`}
+function svList(){return S.sv.w==='me'?S.mine:byId(S.sv.w).st}
+function svHTML(){if(!S.sv)return '';const l=svList(),it=l[S.sv.i],me=S.sv.w==='me',p=me?{name:S.me.name||'Me',c:'#6c4cff',pic:S.me.pic}:byId(S.sv.w);
+ return `<div class="sv" style="background:${it.bg}"><div class="bars">${l.map((x,i)=>`<i class="${i<S.sv.i?'d':i===S.sv.i?'a':''}"></i>`).join('')}</div><div class="who">${av(p,40)}<div><b>${me?'My status':esc(p.name)}</b><small>${it.time}${me?' · expires in 24h':''}</small></div><button class="ib" data-act="svclose" style="margin-left:auto" aria-label="Close">✕</button></div><div class="txt">${esc(it.text)}</div><div class="tap"><button data-act="svprev" aria-label="Previous"></button><button data-act="svnext" aria-label="Next"></button></div>${me?'<div class="acts"><button data-act="stadd">＋ Add</button><button data-act="stdel">🗑 Delete</button></div>':''}</div>`}
+function svStart(){clearTimeout(svT);svT=setTimeout(()=>A.svnext(),5000)}
+const NM=['Maya','Arif','Lena','Noah','Sofia','Kai','Zara','Omar'],CREPL=['Great point!','Same here 😄','Thanks for sharing 🙌','Anyone else seen this?','Count me in!','Love this idea ❤️'];
+const mkC=(id,name,emoji,c,desc,m,j,admin)=>({id,name,emoji,c,desc,members:m,joined:j,admin:!!admin,ch:[{id:id+'a',name:'Announcements',ann:1,msgs:[{id:++uid,who:'Admin',text:'Welcome to '+name+'! Be kind and have fun.',time:'Mon'}]},{id:id+'g',name:'General',msgs:[{id:++uid,who:NM[m%8],text:'Hey everyone 👋',time:'09:10'}]}]});
+const C=[mkC('c0','Zuno Designers','🎨','#6c4cff','Share designs, get feedback, and grow together.',1240,true),mkC('c1','Dhaka Devs','💻','#0fb894','Local developers: jobs, meetups and code help.',860,false),mkC('c2','Weekend Hikers','🥾','#16a34a','Plan trips and share your favorite trails.',312,false),mkC('c3','Book Club','📚','#f59e0b','One book a month, one big discussion.',148,false)];
+C[0].ch.push({id:'c0f',name:'Feedback',msgs:[]});
+S.cm=null;S.cch=null;S.cdraft='';S.dc={i:0,n:'',d:''};
+const cm=()=>C.find(c=>c.id===S.cm);
+const cav=(c,sz)=>`<div class="av" style="--c:${c.c};border-radius:${sz>50?22:14}px;width:${sz}px;height:${sz}px;font-size:${sz*.5|0}px">${c.emoji}</div>`;
+const cbub=m=>`<div class="b ${m.who==='me'?'me':''}">${m.who==='me'?'':`<small style="display:block;font-weight:600;color:var(--ac2)">${esc(m.who)}</small>`}${esc(m.text)}<div class="mt">${m.time}</div></div>`;
+const chRow=(c,h)=>`<div class="row" style="${c.joined?'':'opacity:.5;cursor:default'}" ${c.joined?`data-act="chopen" data-id="${h.id}"`:''}><div class="av" style="--c:var(--in);color:var(--ac);border-radius:14px">${h.ann?'📢':'#'}</div><div class="rb"><b>${esc(h.name)}</b><div class="r2"><span>${h.msgs.length?esc(h.msgs[h.msgs.length-1].text):'No messages yet'}</span></div></div></div>`;
+function cmHTML(){const c=cm();
+ if(S.cch){const h=c.ch.find(x=>x.id===S.cch),can=!h.ann||c.admin;
+  return `<div class="ch"><button class="ib" data-act="cmback" aria-label="Back">←</button>${cav(c,40)}<div class="rb"><b>${h.ann?'📢':'#'} ${esc(h.name)}</b><small>${esc(c.name)} · ${c.members.toLocaleString()} members</small></div></div><div id="msgs">${h.msgs.length?h.msgs.map(cbub).join(''):'<div class="empty"><b>No messages yet</b>Start the conversation.</div>'}</div>${can?`<div class="cmp"><input id="cmsg" maxlength="1000" placeholder="Message ${esc(h.name)}" autocomplete="off" value="${esc(S.cdraft)}"><button class="sb" data-act="csend" aria-label="Send">➤</button></div>`:'<div class="rp" style="justify-content:center">Only admins can post in announcements.</div>'}`}
+ return `<div class="ch"><button class="ib back" data-act="cmback" aria-label="Back">←</button><div class="rb"><b>Community</b></div></div><div style="flex:1;overflow:auto;padding:22px 14px"><div style="text-align:center;padding-bottom:16px">${cav(c,80)}<h2 style="margin-top:12px">${esc(c.name)}</h2><p class="tm">${c.members.toLocaleString()} members${c.admin?' · You’re an admin':''}</p><p style="padding:10px 16px;color:var(--mu)">${esc(c.desc)}</p>${c.joined?`<button class="it" data-act="cleave" style="color:var(--rd);justify-content:center;width:auto;margin:auto">Leave community</button>`:'<button class="pri" data-act="cjoin" style="width:auto;padding:12px 32px">Join community</button>'}</div><div class="r1" style="padding:0 10px"><b>Channels</b>${c.admin?'<button data-act="chnew" style="color:var(--ac);font-weight:600">＋ New channel</button>':''}</div>${c.ch.map(h=>chRow(c,h)).join('')}${c.joined?'':'<p class="tm" style="text-align:center;padding:12px">Join to read and post in channels.</p>'}</div>`}
+let scStream=null,scTimer=null;S.dg={i:0,n:'',sel:[]};
+const keepG=()=>{S.dg.n=($('#gnm')||{value:S.dg.n}).value};
+function scanHTML(){const sc=S.scan;if(!sc)return '';const mine=sc.m==='mine';let q='';
+ if(mine){try{const g=qrcode(0,'M');g.addData('zuno://u/'+S.me.user);g.make();q=g.createSvgTag(8,0)}catch(e){q='<p style="padding:30px 0;color:#666">QR image couldn’t load. Your code is zuno://u/'+esc(S.me.user)+'</p>'}}
+ return `<div class="scn"><div class="top"><h2>${mine?'My QR code':'Scan QR code'}</h2><button class="ib" data-act="scclose" aria-label="Close" style="background:#ffffff1c">✕</button></div><div class="tabs"><button class="${mine?'':'on'}" data-act="scmode" data-m="scan">Scan</button><button class="${mine?'on':''}" data-act="scmode" data-m="mine">My code</button></div>
+ ${mine?`<div class="qrc">${q}<b>${esc(S.me.name||'Me')}</b><div style="color:#666">@${esc(S.me.user)}</div></div><p style="color:#fffa;text-align:center;max-width:300px">Friends can scan this code to start a chat with you.</p>`:
+ `<div class="vf">${scStream?'<video id="scv" autoplay playsinline muted></video>':`<p>${sc.err&&sc.cam?esc(sc.err):'Starting camera…'}</p>`}</div><div class="err" style="min-height:20px;text-align:center">${sc.err&&(scStream||!sc.cam)?esc(sc.err):''}</div><input class="fld" id="scm" maxlength="60" placeholder="Or enter @username" autocomplete="off"><button class="pri" data-act="scgo" style="max-width:380px">Add by username</button><button class="ghost" data-act="scdemo">Try demo scan</button>`}</div>`}
+function scanStop(){clearInterval(scTimer);scTimer=null;if(scStream){scStream.getTracks().forEach(t=>t.stop());scStream=null}}
+function scanResult(raw){let t=String(raw||'').trim();if(/^@?[a-zA-Z0-9_]{3,20}$/.test(t))t='zuno://u/'+t.replace('@','');
+ const m=/^zuno:\/\/u\/([a-zA-Z0-9_]{3,20})$/.exec(t);
+ if(!m){S.scan.err='That isn’t a Zuno QR code or username.';return R()}
+ const u=m[1].toLowerCase();if(u===S.me.user.toLowerCase()){S.scan.err='That’s your own code.';return R()}
+ let p=P.find(x=>x.user===u);
+ if(!p){p={id:'u'+(++uid),name:u[0].toUpperCase()+u.slice(1),user:u,c:AV[uid%AV.length][1],online:true,bio:'New on Zuno',unread:0,msgs:[]};P.push(p)}
+ scanStop();S.scan=null;S.tab='chats';open(p.id)}
+async function scanStart(){S.scan.cam=1;
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){S.scan.err='Camera isn’t available here. Use a username below.';return R()}
+ try{scStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})}catch(e){S.scan.err='Camera access was blocked. Use a username below, or open Zuno in your browser.';return R()}
+ if(!S.scan||S.scan.m!=='scan'){scanStop();return}
+ S.scan.err='';R();
+ let det=null;if('BarcodeDetector' in window){try{det=new BarcodeDetector({formats:['qr_code']})}catch(e){}}
+ if(!det&&!window.jsQR){const j=document.createElement('script');j.src='https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js';document.head.appendChild(j)}
+ const cv=document.createElement('canvas'),cx=cv.getContext('2d',{willReadFrequently:true});
+ scTimer=setInterval(async()=>{const v=$('#scv');if(!v||v.readyState<2||!S.scan)return;
+  try{let t='';if(det){const r=await det.detect(v);t=r[0]&&r[0].rawValue}
+   else if(window.jsQR){cv.width=v.videoWidth;cv.height=v.videoHeight;cx.drawImage(v,0,0);const im=cx.getImageData(0,0,cv.width,cv.height),q=jsQR(im.data,im.width,im.height);t=q&&q.data}
+   if(t&&t!==S.scan.last){S.scan.last=t;scanResult(t)}}catch(e){}},350)}
+const TABS=[['chats','💬','Chats'],['community','🏘️','Community','Communities'],['calls','📞','Calls'],['contacts','👥','Contacts'],['settings','⚙️','Settings']];
+function R(){const r=$('#root');
+ if(S.step!=='app'){r.innerHTML=authHTML()+sheetHTML();return}
+ r.innerHTML=`<div class="shell"><div class="side">${S.online?'':'<div class="bn">You’re offline. Messages will send when you reconnect.</div>'}<div class="hd"><h1>${(TABS.find(t=>t[0]===S.tab)[3]||TABS.find(t=>t[0]===S.tab)[2])}</h1><div style="display:flex;gap:8px;align-items:center">${S.tab==='chats'||S.tab==='contacts'?'<button class="ib" data-act="scan" aria-label="Scan QR code" style="background:var(--in)">📷</button>':''}<div class="logo" style="width:36px;height:36px;font-size:19px;border-radius:12px">Z</div></div></div>${S.tab==='chats'||S.tab==='contacts'||S.tab==='community'?`<input class="srch" id="q" placeholder="Search people and chats" value="${esc(S.q)}">`:''}<div id="list">${listHTML()}</div>${S.tab==='chats'?'<button class="fab" data-act="newmenu" aria-label="New chat or group">＋</button>':S.tab==='community'?'<button class="fab" data-act="cnew" aria-label="Create community">＋</button>':''}<div class="nav">${TABS.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-act="tab" data-t="${t[0]}"><b>${t[1]}</b>${t[2]}</button>`).join('')}</div></div><div class="main ${S.cur||S.cm?'open':''}">${S.cm?cmHTML():chatHTML()}</div></div>${sheetHTML()}${callHTML()}${svHTML()}${scanHTML()}`;
+ const m=$('#msgs');if(m)m.scrollTop=m.scrollHeight;
+ const v=$('#scv');if(v&&scStream&&v.srcObject!==scStream){v.srcObject=scStream;v.play&&v.play().catch(()=>{})}
+ const q=$('#q');if(q&&S.focusQ){q.focus();q.setSelectionRange(99,99)}S.focusQ=0}
+function authHTML(){const e=`<div class="err">${esc(S.err)}</div>`;
+ if(S.step==='welcome')return `<div class="au"><div class="logo" style="width:68px;height:68px;font-size:38px;border-radius:22px">Z</div><h1>Welcome to Zuno</h1><p>Fast, private messaging for the people you talk to most.</p><div class="tabs"><button class="${S.mode==='phone'?'on':''}" data-act="mode" data-m="phone">Phone</button><button class="${S.mode==='email'?'on':''}" data-act="mode" data-m="email">Email</button></div><input class="fld" id="id" value="${esc(S.id)}" placeholder="${S.mode==='phone'?'+1 555 010 0199':'you@example.com'}" inputmode="${S.mode==='phone'?'tel':'email'}" autocomplete="off">${e}<button class="pri" data-act="sendotp">Continue</button><p style="font-size:12px">We’ll send a 6-digit code to verify it’s you.</p></div>`;
+ if(S.step==='otp')return `<div class="au"><h1>Enter your code</h1><p>Sent to ${esc(S.id)}. Demo code: <b>123456</b></p><input class="fld" id="otp" inputmode="numeric" maxlength="6" placeholder="6-digit code" style="letter-spacing:6px;text-align:center;font-size:22px">${e}<button class="pri" data-act="verify">Verify</button><button data-act="back" style="color:var(--mu)">Use a different ${S.mode}</button></div>`;
+ return `<div class="au"><h1>Set up your profile</h1><button data-act="avsheet" style="margin:0 auto;display:block" aria-label="Add profile photo">${av({name:(S.me.name||'Z').toUpperCase(),c:'#6c4cff',pic:S.me.pic},84)}</button><button data-act="avsheet" style="color:var(--ac);font-weight:600">${S.me.pic?'Change photo':'Add photo'}</button><input class="fld" id="nm" maxlength="40" placeholder="Display name" value="${esc(S.me.name)}"><input class="fld" id="un" maxlength="20" placeholder="Username (letters, numbers, _)" value="${esc(S.me.user)}"><input class="fld" id="bio" maxlength="80" placeholder="Bio (optional)" value="${esc(S.me.bio)}">${e}<button class="pri" data-act="finish">Start chatting</button></div>`}
+function load(){S.loading=true;R();setTimeout(()=>{S.loading=false;R()},700)}
+function open(id){S.cur=id;S.cm=null;S.cch=null;const p=byId(id);p.unread=0;S.draft='';S.reply=null;S.tab==='contacts'&&(S.tab='chats');R()}
+function push(p,m){p.msgs.push(m);P.splice(P.indexOf(p),1);P.unshift(p)}
+function send(kind,text,extra){const p=byId(S.cur);if(!p||S.blocked.includes(p.id))return;
+ const m=mk('me',text||'',S.online?'sent':'sent',Object.assign({kind},extra||{}));if(S.reply){m.reply=S.reply.text;S.reply=null}
+ push(p,m);S.draft='';R();const inp=$('#msg');inp&&inp.focus();
+ if(!S.online)return;
+ setTimeout(()=>{m.st='delivered';S.cur===p.id&&R()},600);
+ setTimeout(()=>{p.typing=true;p.tw=p.group?byId(p.members[Math.random()*p.members.length|0]).name.split(' ')[0]:'';S.cur===p.id&&R()},1200);
+ setTimeout(()=>{m.st=S.set.receipts?'read':'delivered';p.typing=false;const r=mk('them',REPL[Math.random()*REPL.length|0]);if(p.group)r.who=p.tw;push(p,r);if(S.cur!==p.id){p.unread++;}R()},2800)}
+function startCall(id,v,inc){S.call={id,v,incoming:inc,mute:false,cam:true,t:0};R()}
+function endCall(){clearInterval(timer);const c=S.call;if(c){const p=byId(c.id);S.calls.unshift({n:p.name,d:c.incoming?'missed':'out',v:c.v?1:0,t:'Today, '+now()})}S.call=null;R()}
+const A={
+ avsheet:()=>{keep();S.sheet={k:'avatar'};R()},
+ av_pick:(d)=>{S.me.pic=avUrl(+d.i);S.sheet=null;R()},av_rm:()=>{delete S.me.pic;S.sheet=null;R()},
+ cmopen:(d,el,e)=>{if(e.target.closest('[data-act=cjoin]'))return;S.cm=d.id;S.cch=null;S.cur=null;R()},
+ cmback:()=>{if(S.cch)S.cch=null;else S.cm=null;R()},
+ chopen:(d)=>{S.cch=d.id;S.cdraft='';R()},
+ cjoin:(d,el,e)=>{e.stopPropagation();const c=C.find(x=>x.id===(d.id||S.cm));c.joined=true;c.members++;R()},
+ cleave:()=>{const c=cm();c.joined=false;c.admin=false;c.members--;S.cch=null;R()},
+ csend:()=>{const i=$('#cmsg'),t=i.value.trim();if(!t)return;const c=cm(),h=c.ch.find(x=>x.id===S.cch);h.msgs.push({id:++uid,who:'me',text:t,time:now()});S.cdraft='';R();$('#cmsg').focus();
+  if(!h.ann)setTimeout(()=>{h.msgs.push({id:++uid,who:NM[Math.random()*8|0],text:CREPL[Math.random()*6|0],time:now()});if(S.cch===h.id)R()},1500)},
+ cnew:()=>{S.dc={i:0,n:'',d:''};S.sheet={k:'cnew'};R()},
+ cpick:(d)=>{S.dc.n=$('#cnm').value;S.dc.d=$('#cds').value;S.dc.i=+d.i;R()},
+ cpost:()=>{const n=$('#cnm').value.trim(),ds=$('#cds').value.trim();S.dc.n=n;S.dc.d=ds;const e=$('#cerr');
+  if(n.length<3)return e.textContent='Name needs at least 3 characters.';if(C.some(c=>c.name.toLowerCase()===n.toLowerCase()))return e.textContent='That name is already taken.';
+  const a=AV[S.dc.i],c=mkC('c'+(++uid),n,a[0],a[1],ds||'A new Zuno community.',1,true,true);C.unshift(c);S.sheet=null;S.tab='community';S.cm=c.id;S.cch=null;S.cur=null;R()},
+ chnew:()=>{S.sheet={k:'chnew'};R();setTimeout(()=>{const i=$('#chn');i&&i.focus()},50)},
+ chpost:()=>{const n=$('#chn').value.trim(),c=cm(),e=$('#cerr');if(n.length<2)return e.textContent='Name needs at least 2 characters.';if(c.ch.some(h=>h.name.toLowerCase()===n.toLowerCase()))return e.textContent='That channel already exists.';
+  c.ch.push({id:c.id+'x'+(++uid),name:n,msgs:[]});S.sheet=null;R()},
+ gnew:()=>{S.dg={i:0,n:'',sel:[]};S.sheet={k:'gnew'};R()},
+ gpick:(d)=>{keepG();S.dg.i=+d.i;R()},
+ gsel:(d)=>{keepG();const k=S.dg.sel.indexOf(d.id);k<0?S.dg.sel.push(d.id):S.dg.sel.splice(k,1);R()},
+ gpost:()=>{keepG();const n=S.dg.n.trim(),e=$('#gerr');if(n.length<2)return e.textContent='Group name needs at least 2 characters.';if(S.dg.sel.length<2)return e.textContent='Pick at least 2 people.';
+  const a=AV[S.dg.i],g={id:'g'+(++uid),name:n,user:'',c:a[1],pic:avUrl(S.dg.i),group:true,members:S.dg.sel.slice(),online:false,bio:'',unread:0,msgs:[{id:++uid,t:'sys',kind:'sys',text:'You created “'+n+'”',time:now(),st:'read'}]};
+  P.unshift(g);S.sheet=null;S.tab='chats';open(g.id);setTimeout(()=>{const m=mk('them','Welcome! 🎉');m.who=byId(g.members[0]).name.split(' ')[0];g.msgs.push(m);if(S.cur!==g.id)g.unread++;R()},1200)},
+ ginfo:()=>{S.sheet={k:'ginfo'};R()},gadd:()=>{S.sheet={k:'gadd'};R()},
+ gadd2:(d)=>{const g=byId(S.cur);g.members.push(d.id);g.msgs.push({id:++uid,t:'sys',kind:'sys',text:'You added '+byId(d.id).name,time:now(),st:'read'});S.sheet={k:'ginfo'};R()},
+ gleave:()=>{const g=byId(S.cur);P.splice(P.indexOf(g),1);S.cur=null;S.sheet=null;R()},
+ scan:()=>{S.scan={m:'scan',err:'',last:''};R();scanStart()},
+ scclose:()=>{scanStop();S.scan=null;R()},
+ scmode:(d)=>{S.scan.m=d.m;S.scan.err='';if(d.m==='mine'){scanStop()}R();if(d.m==='scan')scanStart()},
+ scgo:()=>scanResult($('#scm').value),scdemo:()=>scanResult('zuno://u/zara_k'),
+ stadd:()=>{clearTimeout(svT);S.sv=null;S.sheet={k:'status'};R();setTimeout(()=>{const i=$('#sttx');i&&i.focus()},50)},
+ stbg:(d)=>{S.dst.bg=+d.i;R()},
+ stpost:()=>{const t=($('#sttx').value||'').trim();S.dst.text=t;if(!t){$('#sterr').textContent='Write something first.';return}
+  S.mine.push({bg:BGS[S.dst.bg],text:t,time:'Just now'});S.dst.text='';S.sheet=null;R()},
+ svopen:(d)=>{const l=d.w==='me'?S.mine:byId(d.w).st;if(!l.length)return;S.sv={w:d.w,i:0};R();svStart()},
+ svnext:()=>{if(!S.sv)return;const l=svList();if(S.sv.i+1<l.length){S.sv.i++;R();svStart()}else A.svclose()},
+ svprev:()=>{if(!S.sv)return;if(S.sv.i>0)S.sv.i--;R();svStart()},
+ svclose:()=>{clearTimeout(svT);if(S.sv&&S.sv.w!=='me')S.seen[S.sv.w]=1;S.sv=null;R()},
+ stdel:()=>{S.mine.splice(S.sv.i,1);if(!S.mine.length){clearTimeout(svT);S.sv=null}else{S.sv.i=Math.min(S.sv.i,S.mine.length-1);svStart()}R()},
+ mode:(d)=>{S.mode=d.m;S.err='';R()},
+ sendotp:()=>{const v=$('#id').value.trim();S.id=v;const ok=S.mode==='phone'?/^\+?[\d\s-]{8,16}$/.test(v):/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);S.err=ok?'':S.mode==='phone'?'Enter a valid phone number with country code.':'Enter a valid email address.';if(ok)S.step='otp';R()},
+ verify:()=>{if($('#otp').value.trim()==='123456'){S.err='';S.step='profile'}else S.err='That code is incorrect. Try 123456.';R()},
+ back:()=>{S.step='welcome';S.err='';R()},
+ finish:()=>{const n=$('#nm').value.trim(),u=$('#un').value.trim(),b=$('#bio').value.trim();S.me=Object.assign(S.me,{name:n,user:u,bio:b});
+  if(n.length<2)S.err='Enter your name (2+ characters).';else if(!/^[a-zA-Z0-9_]{3,20}$/.test(u))S.err='Username needs 3–20 letters, numbers or _.';else if(P.some(p=>p.user===u.toLowerCase()))S.err='That username is taken.';else{S.err='';S.step='app';return load()}R()},
+ tab:(d)=>{S.tab=d.t;S.q='';R()},open:(d)=>open(d.id),close:()=>{S.cur=null;R()},
+ newchat:()=>{S.sheet=null;S.tab='contacts';R()},
+ menu:(d)=>{S.sheet={k:'menu',id:+d.id};R()},sheetx:(d,el,e)=>{if(e.target===el){S.sheet=null;R()}},
+ m_reply:(d)=>{const m=byId(S.cur).msgs.find(x=>x.id==d.id);S.reply={text:pre(m)};S.sheet=null;R();$('#msg')&&$('#msg').focus()},
+ m_copy:(d)=>{const m=byId(S.cur).msgs.find(x=>x.id==d.id);try{navigator.clipboard.writeText(m.text||pre(m))}catch(e){}S.sheet=null;R()},
+ m_fwd:(d)=>{S.sheet={k:'fwd',id:+d.id};R()},
+ m_del:(d)=>{const p=byId(S.cur);p.msgs=p.msgs.filter(x=>x.id!=d.id);S.sheet=null;R()},
+ fwdto:(d)=>{const src=byId(S.cur).msgs.find(x=>x.id==d.m),t=byId(d.id);push(t,Object.assign({},src,{id:++uid,t:'me',st:'sent',time:now(),reply:null}));S.sheet=null;R()},
+ noreply:()=>{S.reply=null;R()},
+ emoji:()=>$('#em').classList.toggle('on'),emo:(d)=>{const i=$('#msg');i.value+=d.e;i.dispatchEvent(new Event('input'));i.focus()},
+ send:()=>{const t=$('#msg').value.trim();t&&send('text',t)},
+ voice:()=>send('voice'),attach:()=>{S.sheet={k:'attach'};R()},
+ send_photo:()=>{S.sheet=null;send('photo')},send_video:()=>{S.sheet=null;send('video')},send_voice:()=>{S.sheet=null;send('voice')},send_file:()=>{S.sheet=null;send('file','',{name:'document.pdf'})},
+ more:()=>{S.sheet={k:'more'};R()},
+ block:()=>{const i=S.cur,k=S.blocked.indexOf(i);k<0?S.blocked.push(i):S.blocked.splice(k,1);S.sheet=null;R()},
+ report:()=>{S.sheet={k:'info',t:'Report sent',d:'Thanks. Our team will review this account.'};R()},
+ clear:()=>{byId(S.cur).msgs=[];S.sheet=null;R()},
+ blocked:()=>{S.sheet={k:'blocked'};R()},unb:(d)=>{S.blocked=S.blocked.filter(x=>x!==d.id);R();S.sheet={k:'blocked'};R()},
+ info:(d)=>{const a=d.t.split('|');S.sheet={k:'info',t:a[0],d:a[1]};R()},
+ tg:(d)=>{if(d.k==='dark'){const h=document.documentElement;h.dataset.theme=h.dataset.theme==='dark'?'light':'dark'}else S.set[d.k]=!S.set[d.k];R()},
+ logout:()=>{S.step='welcome';S.id='';S.cur=null;S.tab='chats';S.me={name:'',user:'',bio:''};R()},
+ call:()=>startCall(S.cur,0),vcall:()=>startCall(S.cur,1),callname:(d)=>startCall(P.find(p=>p.name===d.n).id,0),
+ incoming:()=>startCall('u0',1,true),
+ accept:()=>{S.call.incoming=false;R();const s=Date.now();timer=setInterval(()=>{const t=(Date.now()-s)/1000|0,e=$('#ctm');e&&(e.textContent=(S.call.v&&S.call.cam?'Video call · ':'')+(t/60|0)+':'+String(t%60).padStart(2,'0'))},1000)},
+ mute:()=>{S.call.mute=!S.call.mute;R()},cam:()=>{S.call.cam=!S.call.cam;R()},endcall:endCall};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(el&&A[el.dataset.act])A[el.dataset.act](el.dataset,el,e)});
+document.addEventListener('input',e=>{
+ if(e.target.id==='q'){S.q=e.target.value;$('#list').innerHTML=listHTML()}
+ if(e.target.id==='cmsg')S.cdraft=e.target.value;
+ if(e.target.id==='sttx'){S.dst.text=e.target.value;$('#stpv').textContent=e.target.value||'Type something…'}
+ if(e.target.id==='msg'){S.draft=e.target.value;const b=$('#sb'),t=S.draft.trim();b.textContent=t?'➤':'🎤';b.dataset.act=t?'send':'voice'}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='msg'){e.preventDefault();A.send()}if(e.key==='Enter'&&e.target.id==='cmsg'){e.preventDefault();A.csend()}});
+addEventListener('online',()=>{S.online=true;R()});addEventListener('offline',()=>{S.online=false;R()});
+$('#pf').addEventListener('change',e=>{
+ const f=e.target.files[0];e.target.value='';if(!f)return;
+ const fail=m=>{if(S.step==='profile'){S.err=m;R()}else{S.sheet={k:'info',t:'Couldn’t update photo',d:m};R()}};
+ if(f.type&&!f.type.startsWith('image/'))return fail('Choose an image file (JPG, PNG or WebP).');
+ if(f.size>8e6)return fail('That image is over 8 MB. Choose a smaller one.');
+ const img=new Image(),url=URL.createObjectURL(f);
+ img.onerror=()=>{URL.revokeObjectURL(url);fail('That file couldn’t be read as an image.')};
+ img.onload=()=>{const z=256,c=document.createElement('canvas');c.width=c.height=z;const k=Math.min(img.width,img.height),x=(img.width-k)/2,y=(img.height-k)/2;
+  c.getContext('2d').drawImage(img,x,y,k,k,0,0,z,z);URL.revokeObjectURL(url);
+  if(S.step==='profile'){const v=i=>($('#'+i)||{}).value||'';S.me.name=v('nm');S.me.user=v('un');S.me.bio=v('bio');S.err=''}
+  S.me.pic=c.toDataURL('image/jpeg',.85);S.sheet=null;R()};
+ img.src=url});
+R();
+</script></body></html>
