@@ -48,6 +48,9 @@ jobs:
           npx cap add android
           sed -i 's|</manifest>|    <uses-permission android:name="android.permission.CAMERA" />\n</manifest>|' android/app/src/main/AndroidManifest.xml
           npx cap sync android
+                    npm i -D @capacitor/assets
+          mkdir -p assets && cp icon.png assets/icon.png
+          npx capacitor-assets generate --android --iconBackgroundColor '#6c4cff' --iconBackgroundColorDark '#6c4cff'
       - name: Build APK
         run: cd android && chmod +x gradlew && ./gradlew assembleDebug
       - uses: softprops/action-gh-release@v2
